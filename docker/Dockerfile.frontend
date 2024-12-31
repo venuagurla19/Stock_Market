@@ -5,7 +5,7 @@ FROM node:16 as build
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY package*.json ./
+COPY Front-End/package*.json ./
 RUN npm install
 
 # Copy the source files and build the app
