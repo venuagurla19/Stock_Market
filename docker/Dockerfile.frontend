@@ -6,14 +6,12 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY Front-End/package*.json ./
-COPY Front-End/public/index.html ./
-COPY Front-End/src/App.js ./
-COPY Front-End/src/index.css ./
-COPY Front-End/src/index.js ./
+COPY Front-End/public ./public
+COPY Front-End/src ./src
+
 RUN npm install
 
 # Copy the source files and build the app
-COPY . .
 RUN npm run build
 
 # Step 2: Use Nginx to serve the React app
