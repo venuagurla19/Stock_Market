@@ -1,49 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
-  const [stockSymbol, setStockSymbol] = useState('');
-  const [stockData, setStockData] = useState(null);
-  const [error, setError] = useState(null);
+const App = () => {
+  // State to hold stock data and IPO data
+  const [stocks, setStocks] = useState([]);
+  const [ipos, setIpos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetchStockData = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/stock/${stockSymbol}`);
-      if (!response.ok) throw new Error('Stock data not found');
-      const data = await response.json();
-      setStockData(data);
-      setError(null);
-    } catch (error) {
-      setError(error.message);
-      setStockData(null);
-    }
-  };
+  // Fetch stock data and IPO data
+  useEffect(() => {
+    // Fetching stock market data (replace with real API URL)
+    fetch('https://api.example.com/stocks')  // Replace with actual stock market API
+      .then((response) => response.json())
+      .then((data) => {
+        setStocks(data);
+        setLoading(false);
+      })
+      .catch((error) => console.error('Error fetching stock data:', error));
+
+    // Fetching IPO data (replace with real API URL)
+    fetch('https://api.example.com/ipos')  // Replace with actual IPO API
+      .then((response) => response.json())
+      .then((data) => {
+        setIpos(data);
+        setLoading(false);
+      })
+      .catch((error) => console.error('Error fetching IPO data:', error));
+  }, []);
+
+  // Render loading state or stock data
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   return (
-    <div className="App">
-      <h1>Stock Market Tracker</h1>
-      <input
-        type="text"
-        placeholder="Enter stock symbol"
-        value={stockSymbol}
-        onChange={(e) => setStockSymbol(e.target.value)}
-      />
-      <button onClick={fetchStockData}>Get Stock Data</button>
+    <div className="app-container">
+      <header>
+        <h1>Stock Market & IPO Tracker</h1>
+      </header>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {stockData && (
-        <div>
-          <h2>{stockSymbol.toUpperCase()}</h2>
-          <p>Current Price: {stockData.current_price}</p>
-          <p>High Price: {stockData.high_price}</p>
-          <p>Low Price: {stockData.low_price}</p>
-          <p>Open Price: {stockData.open_price}</p>
-          <p>Previous Close: {stockData.previous_close}</p>
+      {/* Stock Data Section */}
+      <section className="stock-section">
+        <h2>Current Stocks</h2>
+        <div className="stock-list">
+          {stocks.length > 0 ? (
+            stocks.map((stock) => (
+              <div key={stock.id} className="stock-card">
+                <h3>{stock.name}</h3>
+                <p>Price: ${stock.price}</p>
+                <p>Change: {stock.change}%</p>
+              </div>
+            ))
+          ) : (
+            <p>No stocks available.</p>
+          )}
         </div>
-      )}
+      </section>
+
+      {/* IPO Data Section */}
+      <section className="ipo-section">
+        <h2>Upcoming IPOs</h2>
+        <div className="ipo-list">
+          {ipos.length > 0 ? (
+            ipos.map((ipo) => (
+              <div key={ipo.id} className="ipo-card">
+                <h3>{ipo.name}</h3>
+                <p>Price: ${ipo.price}</p>
+                <p>Launch Date: {ipo.launchDate}</p>
+              </div>
+            ))
+          ) : (
+            <p>No upcoming IPOs.</p>
+          )}
+        </div>
+      </section>
     </div>
   );
-}
+};
 
 export default App;
