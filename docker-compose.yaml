@@ -1,14 +1,18 @@
 version: '3.8'
 
+version: '3'
 services:
   frontend:
     build:
       context: .
-      dockerfile: docker/Dockerfile.frontend
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./frontend/src:/app/src  # Sync source code
+      - ./frontend/public:/app/public  # Sync public files
     ports:
       - "8080:80"
-    depends_on:
-      - backend
+    command: npm start
+
 
   backend:
     build:
