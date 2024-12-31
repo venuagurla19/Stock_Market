@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Stock_maarket/Front-End/Dockerfile.frontend
+      dockerfile: docker/Dockerfile.frontend
     ports:
       - "8080:80"
     depends_on:
@@ -13,7 +13,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Stock_maarket/Back-End/Dockerfile.backend
+      dockerfile: docker/Dockerfile.backend
     ports:
       - "5000:5000"
     depends_on:
@@ -24,7 +24,7 @@ services:
   websocket:
     build:
       context: .
-      dockerfile: Stock_maarket/Dockerfile.websocket
+      dockerfile: docker/Dockerfile.websocket
     ports:
       - "6000:6000"
 
