@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - websocket
+    environment:
+      - DATABASE_URL=postgres://user:password@database:5432/stockdb
+
+  websocket:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.websocket
+    ports:
+      - "6000:6000"
+
+  database:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: stockdb
+    ports:
+      - "5432:5432"
