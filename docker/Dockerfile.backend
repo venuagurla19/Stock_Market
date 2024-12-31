@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy the application code to /app
-COPY . /app
+# Copy the application code and requirements.txt to /app
+COPY Back-End/requirements.txt /app/requirements.txt
+COPY Back-End/ /app/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
