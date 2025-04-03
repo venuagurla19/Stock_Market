@@ -14,11 +14,12 @@ lifecycle {
 }   
 
 resource "aws_dynamodb_table" "venu_Db" {
-    name         = "venu_Db"
-    billing_mode = "PAT_PER_REQUEST"
-    hash_key = "VENU123ID"
-    attribute {
-        name = "VENU123ID"
-        type = "S"
-        }
+  name         = "venu_Db"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "UserId"  # Use the correct attribute name
+
+  attribute {
+    name = "UserId"
+    type = "S"
+  }
 }
