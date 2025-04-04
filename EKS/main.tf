@@ -2,8 +2,8 @@ provider "aws" {
     region = "us-west-2"
     }
 
-resource "aws_s3_bucket" "venu_bucket" {
-    bucket = "terrafrom_test-bucket"
+resource "aws_s3_bucket" "venu-bucket" {
+    bucket = "terraform-test-bucket"
 
 lifecycle {
     prevent_destroy = false
